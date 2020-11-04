@@ -1,16 +1,16 @@
 <template>
-    <form @submit.prevent>
+    <form @submit="submitData">
         <h2>Cadastro de parceiro</h2>
-        <button type="button" v-for="(tab, index) in tabs" v-bind:key="index" @click="selectTab(index)">
+        <button type="button" v-for="(tab, index) in tabs" :key="index" @click="selectTab(index)">
             {{ tab }}
         </button>
         <div>
             <p>Campos</p>
             <component v-bind:is="currentTabComponent" />
-            <button v-if="tabs[currentTab] === lastTab" type="submit" @click="submitData">
+            <button v-if="currentTab === tabs.length - 1">
                 Concluir
             </button>
-            <button type="button" @click="goToNextTab" v-else >
+            <button v-else type="button" @click="goToNextTab">
                 Próximo
             </button>
         </div>
@@ -44,7 +44,8 @@ export default {
         selectTab: function(tab){
             this.currentTab = tab
 		},
-		submitData: function(){
+		submitData: function(event){
+            event.preventDefault()
 			console.log(this.$store.state.clientData)
 		}
 	},
